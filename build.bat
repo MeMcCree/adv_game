@@ -1,0 +1,1 @@
+gcc -I./libs/include -o bin/main.exe src/main.c -L./libs/lib -lraylib -lopengl32 -lgdi32 -lwinmm
