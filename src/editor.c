@@ -15,40 +15,47 @@ typedef enum {
   TILES_SIZE
 } tile_e;
 
-int read_level(char* filepath, tile_e* buffer, int* sizex, int* sizey) {
+#define LEVEL_SIZE 256*128
+tile_e level[2][LEVEL_SIZE] = {0};
+
+int read_level(char* filepath, int* sizex, int* sizey) {
   FILE* fd = fopen(filepath, "r");
 
   if (!fd) return 1;
+  printf("[INFO] (read_level) Opened file successfuly\n");
 
   if (!fread(sizex, sizeof(int), 1, fd)) return 1;
+  printf("[INFO] (read_level) Read sizex successfuly\n");
   if (!fread(sizey, sizeof(int), 1, fd)) return 1;
+  printf("[INFO] (read_level) Read sizey successfuly\n");
 
-  fread((void*)buffer, sizeof(tile_e) * *sizey * *sizex, 1, fd);
+  fread((void*)level[0], sizeof(tile_e) * (*sizey) * (*sizex), 1, fd);
+  printf("[INFO] (read_level) Read first layer successfuly\n");
+  fread((void*)level[1], sizeof(tile_e) * (*sizey) * (*sizex), 1, fd);
+  printf("[INFO] (read_level) Read second layer successfuly\n");
 
   return 0;
 }
 
-
-int write_level(char* filepath, tile_e* buffer, int sizex, int sizey) {
-  FILE* fd = fopen(filepath, "w");
+int write_level(char* filepath, int sizex, int sizey) {
+  FILE* fd = fopen(filepath, "wb");
 
   if (!fd) return 1;
+  printf("[INFO] (write_level) Opened file successfuly\n");
 
-  if (!fwrite((void*)&sizex, sizeof(int), 1, fd)) return 1;
-  if (!fwrite((void*)&sizey, sizeof(int), 1, fd)) return 1;
+  if (!fwrite(&sizex, sizeof(int), 1, fd)) return 1;
+  printf("[INFO] (write_level) Wrote sizex successfuly\n");
+  if (!fwrite(&sizey, sizeof(int), 1, fd)) return 1;
+  printf("[INFO] (write_level) Wrote sizey successfuly\n");
 
-  if (!fwrite((void*)buffer, sizeof(tile_e) * sizey * sizex, 1, fd)) return 1;
+  if (!fwrite(level[0], sizeof(tile_e), sizey * sizex, fd)) return 1;
+  printf("[INFO] (write_level) Wrote first layer successfuly\n");
+  if (!fwrite(level[1], sizeof(tile_e), sizey * sizex, fd)) return 1;
+  printf("[INFO] (write_level) Wrote second layer successfuly\n");
 
   return 0;
 }
 
-void create_level(int sizex, int sizey, void* buffer) {
-  buffer = malloc(sizeof(tile_e) * sizey * sizex);
-  memset((void*)buffer, 0, sizeof(tile_e) * sizey * sizex);
-}
-
-#define LEVEL_SIZE 256*128
-tile_e level[2][LEVEL_SIZE] = {0};
 
 double pulse(double offset) {
   double alpha = sin(GetTime() + offset);
@@ -81,6 +88,8 @@ typedef struct {
   bool tile_selection;
   bool is_selecting;
   bool selection;
+
+  bool io_confirm;
 } editor_t;
 
 int main(void) {
@@ -97,6 +106,7 @@ int main(void) {
   for (int x = 0; x < sizex; x++) {
     level[1][x] = 1;
   }
+  //read_level("level0.bin", level, &sizex, &sizey);
 
   editor_t editor = {0};
   editor.main_camera.target = (Vector2){0, 0};
@@ -105,6 +115,7 @@ int main(void) {
   editor.mul = 1.0f;
   editor.draw_tile = 1;
   editor.draw_layer = 1;
+  editor.io_confirm = false;
 
   char buffer[128];
 
@@ -227,6 +238,28 @@ int main(void) {
       editor.draw_tile = editor.draw_tile < 0 ? 0 : editor.draw_tile;
     }
 
+    if (IsKeyPressed(KEY_BACKSPACE)) {
+      editor.io_confirm = false;
+    }
+
+    if (IsKeyPressed(KEY_COMMA)) {
+      if (!editor.io_confirm) {
+        editor.io_confirm = true;
+      } else {
+        write_level("level0.bin", sizex, sizey);
+        editor.io_confirm = false;
+      }
+    }
+
+    if (IsKeyPressed(KEY_PERIOD)) {
+      if (!editor.io_confirm) {
+        editor.io_confirm = true;
+      } else {
+        read_level("level0.bin", &sizex, &sizey);
+        editor.io_confirm = false;
+      }
+    }
+
     // Change speed
     if (GetMouseWheelMove() < 0) {
       editor.mul -= 0.1f;
@@ -279,13 +312,6 @@ int main(void) {
 
       // Draw cursor
       DrawRectangle(editor.cursor.x * TILE_SIZE, editor.cursor.y * -TILE_SIZE, TILE_SIZE, TILE_SIZE, (Color){255, 255, 255, pulse(0)});
-      
-      float offx = 16.0f;
-      float ymul = 10.0f;
-      for (int i = 1; i < 256; i++) {
-        DrawLine(offx - 16.0f, graph[i - 1] * 10, offx, graph[i] * 10, LIGHTGRAY);
-        offx += 16;
-      }
 
       EndMode2D();
       
