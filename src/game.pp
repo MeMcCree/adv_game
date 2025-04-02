@@ -1,7 +1,9 @@
 {$mode objfpc}{$H+}
 
 program ray;
-{$linklib libs/lib/raylib.dll}
+{$linklib c}
+{$linklib m}
+{$linklib raylib}
 {$include raylib.inc}
 var
     img: TImage;
