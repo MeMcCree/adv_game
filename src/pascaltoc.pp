@@ -59,7 +59,7 @@ end;
 function IsNameChar(c: char): Boolean;
 begin
     case c of
-        'a'..'z', 'A'..'Z', '0'..'9', '_', '*':
+        'a'..'z', 'A'..'Z', '0'..'9', '_', '*', '.':
             result := true;
     else
         result := false;
@@ -82,6 +82,7 @@ var
     params: array of TParam;
     param: TParam;
     paramsLen: Integer;
+    variadic: Boolean;
 begin
     if ParamCount < 1 then
     begin
@@ -115,7 +116,7 @@ begin
                     ExitCode := 0;
                     exit;
                 end;
-                line := LexerReadLn(lexer);;
+                line := LexerReadLn(lexer);
                 Continue;
             end;
 
@@ -133,12 +134,13 @@ begin
             paramStart := 0;
             SetLength(params, 0);
             braces := false;
+            variadic := false;
 
             c := LexerNext(lineLexer);
             while c <> chr(0) do
             begin
                 Case c of
-                    'a'..'z', 'A'..'Z', '_', '*':
+                    'a'..'z', 'A'..'Z', '_', '*', '.':
                     begin
                         Tok.typ := TK_NAME;
                         Tok.znacz := '';
@@ -148,6 +150,12 @@ begin
                             Tok.znacz := Tok.znacz + c;
                             prc := c;
                             c := LexerNext(lineLexer);
+                        end;
+
+                        if (Length(Tok.znacz) = 3) and (Tok.znacz = '...') then
+                        begin
+                            variadic := true;
+                            Continue;
                         end;
 
                         SetLength(lineTokens, lineTokensLen + 1);
@@ -286,12 +294,19 @@ begin
 
             if retType = 'void' then
             begin
-                writeln('procedure ', funcname, '(', pascParams, '); cdecl; external;');
+                write('procedure ', funcname, '(', pascParams, '); cdecl; ');
             end
             else
             begin
-                writeln('function ', funcname, '(', pascParams, '): ', retType, '; cdecl; external;');
+                write('function ', funcname, '(', pascParams, '): ', retType, '; cdecl; ');
             end;
+
+            if variadic then
+            begin
+                write('varargs; ');
+            end;
+
+            writeln('external;');
 
             line := LexerReadLn(lexer);
         end; 

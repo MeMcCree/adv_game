@@ -84,7 +84,7 @@ function GetShaderLocationAttrib(shader: TShader; attribName: PChar): Integer; c
 procedure SetShaderValue(shader: TShader; locIndex: Integer; value: PByte; uniformType: Integer); cdecl; external;
 procedure SetShaderValueV(shader: TShader; locIndex: Integer; value: PByte; uniformType, count: Integer); cdecl; external;
 procedure SetShaderValueMatrix(shader: TShader; locIndex: Integer; mat: TMatrix); cdecl; external;
-procedure SetShaderValueTexture(shader: TShader; locIndex: Integer; texture: Texture2D); cdecl; external;
+procedure SetShaderValueTexture(shader: TShader; locIndex: Integer; texture: TTexture2D); cdecl; external;
 procedure UnloadShader(shader: TShader); cdecl; external;
 
 function GetScreenToWorldRay(position: TVector2; camera: TCamera): TRay; cdecl; external;

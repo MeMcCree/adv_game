@@ -1,40 +1,6 @@
 type
-    TVector2 = packed record end;
-    TVector3 = packed record end;
-    TCamera = packed record end;
-    PTCamera = ^TCamera;
-    TCamera2D = packed record end;
-    TCamera3D = packed record end;
-    TShader = packed record end;
-    TRay = packed record end;
-    TMatrix = packed record end;
-    TVrDeviceInfo = packed record end;
-    TVrStereoConfig = packed record end;
-    TRenderTexture2D = packed record end;
+    {$include raystructs.inc}
     PInt = ^Integer;
-
-    Texture2D = packed record end;
-    TTraceLogCallback = packed record end;
-    TLoadFileDataCallback = packed record end;
-    TSaveFileDataCallback = packed record end;
-    TLoadFileTextCallback = packed record end;
-    TSaveFileTextCallback = packed record end;
-    TFilePathList = packed record end;
-    TAutomationEvent = packed record end;
-    TAutomationEventList = packed record end;
-    PTAutomationEventList = ^TAutomationEventList;
-
-    TColor = packed record
-        r, g, b, a: Byte;
-    end;
-    TImage = packed record
-        data: ^Byte;
-        width: Integer;
-        height: Integer;
-        mipmaps: Integer;
-        format: Integer;
-    end;
-    PTImage = ^TImage;
     WindowState = (
         FLAG_FULLSCREEN_MODE            = $00000002,
         FLAG_WINDOW_RESIZABLE           = $00000004,
@@ -169,5 +135,6 @@ begin
 end;
 
 {$include rcore.inc}
-
-function LoadImage(fileName: PChar): TImage; cdecl; external;
+{$include rshapes.inc}
+{$include rtextures.inc}
+{$include rtext.inc}
