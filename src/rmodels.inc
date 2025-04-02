@@ -1,0 +1,83 @@
+procedure DrawLine3D(startPos, endPos: TVector3; color: TColor); cdecl; external;
+procedure DrawPoint3D(position: TVector3; color: TColor); cdecl; external;
+procedure DrawCircle3D(center: TVector3; radius: Single; rotationAxis: TVector3; rotationAngle: Single; color: TColor); cdecl; external;
+procedure DrawTriangle3D(v1, v2, v3: TVector3; color: TColor); cdecl; external;
+procedure DrawTriangleStrip3D(points: PTVector3; pointCount: Integer; color: TColor); cdecl; external;
+procedure DrawCube(position: TVector3; width, height, len: Single; color: TColor); cdecl; external;
+procedure DrawCubeV(position, size: TVector3; color: TColor); cdecl; external;
+procedure DrawCubeWires(position: TVector3; width, height, len: Single; color: TColor); cdecl; external;
+procedure DrawCubeWiresV(position, size: TVector3; color: TColor); cdecl; external;
+procedure DrawSphere(centerPos: TVector3; radius: Single; color: TColor); cdecl; external;
+procedure DrawSphereEx(centerPos: TVector3; radius: Single; rings, slices: Integer; color: TColor); cdecl; external;
+procedure DrawSphereWires(centerPos: TVector3; radius: Single; rings, slices: Integer; color: TColor); cdecl; external;
+procedure DrawCylinder(position: TVector3; radiusTop, radiusBottom, height: Single; slices: Integer; color: TColor); cdecl; external;
+procedure DrawCylinderEx(startPos, endPos: TVector3; startRadius, endRadius: Single; sides: Integer; color: TColor); cdecl; external;
+procedure DrawCylinderWires(position: TVector3; radiusTop, radiusBottom, height: Single; slices: Integer; color: TColor); cdecl; external;
+procedure DrawCylinderWiresEx(startPos, endPos: TVector3; startRadius, endRadius: Single; sides: Integer; color: TColor); cdecl; external;
+procedure DrawCapsule(startPos, endPos: TVector3; radius: Single; slices, rings: Integer; color: TColor); cdecl; external;
+procedure DrawCapsuleWires(startPos, endPos: TVector3; radius: Single; slices, rings: Integer; color: TColor); cdecl; external;
+procedure DrawPlane(centerPos: TVector3; size: TVector2; color: TColor); cdecl; external;
+procedure DrawRay(ray: TRay; color: TColor); cdecl; external;
+procedure DrawGrid(slices: Integer; spacing: Single); cdecl; external;
+
+function LoadModel(fileName: PChar): TModel; cdecl; external;
+function LoadModelFromMesh(mesh: TMesh): TModel; cdecl; external;
+function IsModelValid(model: TModel): Boolean; cdecl; external;
+procedure UnloadModel(model: TModel); cdecl; external;
+function GetModelBoundingBox(model: TModel): TBoundingBox; cdecl; external;
+
+procedure DrawModel(model: TModel; position: TVector3; scale: Single; tint: TColor); cdecl; external;
+procedure DrawModelEx(model: TModel; position, rotationAxis: TVector3; rotationAngle: Single; scale: TVector3; tint: TColor); cdecl; external;
+procedure DrawModelWires(model: TModel; position: TVector3; scale: Single; tint: TColor); cdecl; external;
+procedure DrawModelWiresEx(model: TModel; position, rotationAxis: TVector3; rotationAngle: Single; scale: TVector3; tint: TColor); cdecl; external;
+procedure DrawModelPoints(model: TModel; position: TVector3; scale: Single; tint: TColor); cdecl; external;
+procedure DrawModelPointsEx(model: TModel; position, rotationAxis: TVector3; rotationAngle: Single; scale: TVector3; tint: TColor); cdecl; external;
+procedure DrawBoundingBox(box: TBoundingBox; color: TColor); cdecl; external;
+procedure DrawBillboard(camera: TCamera; texture: TTexture2D; position: TVector3; scale: Single; tint: TColor); cdecl; external;
+procedure DrawBillboardRec(camera: TCamera; texture: TTexture2D; source: TRectangle; position: TVector3; size: TVector2; tint: TColor); cdecl; external;
+procedure DrawBillboardPro(camera: TCamera; texture: TTexture2D; source: TRectangle; position, up: TVector3; size, origin: TVector2; rotation: Single; tint: TColor); cdecl; external;
+
+procedure UploadMesh(mesh: PTMesh; dynamic: Boolean); cdecl; external;
+procedure UpdateMeshBuffer(mesh: TMesh; index: Integer; data: PByte; dataSize, offset: Integer); cdecl; external;
+procedure UnloadMesh(mesh: TMesh); cdecl; external;
+procedure DrawMesh(mesh: TMesh; material: TMaterial; transform: TMatrix); cdecl; external;
+procedure DrawMeshInstanced(mesh: TMesh; material: TMaterial; transforms: PTMatrix; instances: Integer); cdecl; external;
+function GetMeshBoundingBox(mesh: TMesh): TBoundingBox; cdecl; external;
+procedure GenMeshTangents(mesh: PTMesh); cdecl; external;
+function ExportMesh(mesh: TMesh; fileName: PChar): Boolean; cdecl; external;
+function ExportMeshAsCode(mesh: TMesh; fileName: PChar): Boolean; cdecl; external;
+
+function GenMeshPoly(sides: Integer; radius: Single): TMesh; cdecl; external;
+function GenMeshPlane(width, len: Single; resX, resZ: Integer): TMesh; cdecl; external;
+function GenMeshCube(width, height, len: Single): TMesh; cdecl; external;
+function GenMeshSphere(radius: Single; rings, slices: Integer): TMesh; cdecl; external;
+function GenMeshHemiSphere(radius: Single; rings, slices: Integer): TMesh; cdecl; external;
+function GenMeshCylinder(radius, height: Single; slices: Integer): TMesh; cdecl; external;
+function GenMeshCone(radius, height: Single; slices: Integer): TMesh; cdecl; external;
+function GenMeshTorus(radius, size: Single; radSeg, sides: Integer): TMesh; cdecl; external;
+function GenMeshKnot(radius, size: Single; radSeg, sides: Integer): TMesh; cdecl; external;
+function GenMeshHeightmap(heightmap: TImage; size: TVector3): TMesh; cdecl; external;
+function GenMeshCubicmap(cubicmap: TImage; cubeSize: TVector3): TMesh; cdecl; external;
+
+function LoadMaterials(fileName: PChar; materialCount: Pint): PTMaterial; cdecl; external;
+function LoadMaterialDefault(): TMaterial; cdecl; external;
+function IsMaterialValid(material: TMaterial): Boolean; cdecl; external;
+procedure UnloadMaterial(material: TMaterial); cdecl; external;
+procedure SetMaterialTexture(material: PTMaterial; mapType: Integer; texture: TTexture2D); cdecl; external;
+procedure SetModelMeshMaterial(model: PTModel; meshId, materialId: Integer); cdecl; external;
+
+function LoadModelAnimations(fileName: PChar; animCount: Pint): PTModelAnimation; cdecl; external;
+procedure UpdateModelAnimation(model: TModel; anim: TModelAnimation; frame: Integer); cdecl; external;
+procedure UpdateModelAnimationBones(model: TModel; anim: TModelAnimation; frame: Integer); cdecl; external;
+procedure UnloadModelAnimation(anim: TModelAnimation); cdecl; external;
+procedure UnloadModelAnimations(animations: PTModelAnimation; animCount: Integer); cdecl; external;
+function IsModelAnimationValid(model: TModel; anim: TModelAnimation): Boolean; cdecl; external;
+
+function CheckCollisionSpheres(center1: TVector3; radius1: Single; center2: TVector3; radius2: Single): Boolean; cdecl; external;
+function CheckCollisionBoxes(box1, box2: TBoundingBox): Boolean; cdecl; external;
+function CheckCollisionBoxSphere(box: TBoundingBox; center: TVector3; radius: Single): Boolean; cdecl; external;
+function GetRayCollisionSphere(ray: TRay; center: TVector3; radius: Single): TRayCollision; cdecl; external;
+function GetRayCollisionBox(ray: TRay; box: TBoundingBox): TRayCollision; cdecl; external;
+function GetRayCollisionMesh(ray: TRay; mesh: TMesh; transform: TMatrix): TRayCollision; cdecl; external;
+function GetRayCollisionTriangle(ray: TRay; p1, p2, p3: TVector3): TRayCollision; cdecl; external;
+function GetRayCollisionQuad(ray: TRay; p1, p2, p3, p4: TVector3): TRayCollision; cdecl; external;

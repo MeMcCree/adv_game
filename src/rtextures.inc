@@ -110,7 +110,7 @@ function ColorToInt(color: TColor): Integer; cdecl; external;
 function ColorNormalize(color: TColor): TVector4; cdecl; external;
 function ColorFromNormalized(normalized: TVector4): TColor; cdecl; external;
 function ColorToHSV(color: TColor): TVector3; cdecl; external;
-function ColorFromHSV(hue, saturation, v: Single): TColor; cdecl; external;
+function ColorFromHSV(hue, saturation, value: Single): TColor; cdecl; external;
 function ColorTint(color, tint: TColor): TColor; cdecl; external;
 function ColorBrightness(color: TColor; factor: Single): TColor; cdecl; external;
 function ColorContrast(color: TColor; contrast: Single): TColor; cdecl; external;

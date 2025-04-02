@@ -4,7 +4,7 @@ function LoadFontEx(fileName: PChar; fontSize: Integer; codepoints: PInt; codepo
 function LoadFontFromImage(image: TImage; key: TColor; firstChar: Integer): TFont; cdecl; external;
 function LoadFontFromMemory(fileType: PChar; fileData: PByte; dataSize, fontSize: Integer; codepoints: PInt; codepointCount: Integer): TFont; cdecl; external;
 function IsFontValid(font: TFont): Boolean; cdecl; external;
-function LoadFontData(fileData: PByte; dataSize, fontSize: Integer; codepoints: PInt; codepointCount, typ: Integer): PTGlyphInfo; cdecl; external;
+function LoadFontData(fileData: PByte; dataSize, fontSize: Integer; codepoints: PInt; codepointCount, atype: Integer): PTGlyphInfo; cdecl; external;
 function GenImageFontAtlas(glyphs: PTGlyphInfo; glyphRecs: PPTRectangle; glyphCount, fontSize, padding, packMethod: Integer): TImage; cdecl; external;
 procedure UnloadFontData(glyphs: PTGlyphInfo; glyphCount: Integer); cdecl; external;
 procedure UnloadFont(font: TFont); cdecl; external;

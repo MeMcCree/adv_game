@@ -118,6 +118,7 @@ function MemAlloc(size: dWord): PByte; cdecl; external;
 function MemRealloc(ptr: PByte; size: dWord): PByte; cdecl; external;
 procedure MemFree(ptr: PByte); cdecl; external;
 
+procedure TraceLog(logLevel: Integer; text: PChar); cdecl; varargs; external;
 procedure SetTraceLogCallback(callback: TTraceLogCallback); cdecl; external;
 procedure SetLoadFileDataCallback(callback: TLoadFileDataCallback); cdecl; external;
 procedure SetSaveFileDataCallback(callback: TSaveFileDataCallback); cdecl; external;
