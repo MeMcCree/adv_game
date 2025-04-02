@@ -8,6 +8,7 @@ type
 {$include rtext.inc}
 {$include rmodels.inc}
 {$include raudio.inc}
+{$include rmath.inc}
 
 const
 {$include rayconsts.inc}

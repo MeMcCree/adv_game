@@ -72,13 +72,13 @@ begin
             if (sqVecs[i].x < 0) or (sqVecs[i].x > screenWidth - squareSize) then
             begin
                 sqVecs[i] := prVec;
-                sqVels[i].x *= -1;
+                sqVels[i] := Vector2Multiply(sqVels[i], Vector2(-1, 1));
             end;
 
             if (sqVecs[i].y < 0) or (sqVecs[i].y > screenHeight - squareSize) then
             begin
                 sqVecs[i] := prVec;
-                sqVels[i].y *= -1;
+                sqVels[i] := Vector2Multiply(sqVels[i], Vector2(1, -1));
             end;
         end;
 
