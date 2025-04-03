@@ -1,14 +1,7 @@
 {$mode objfpc}{$H+}
 
 program ray;
-{$if defined(WINDOWS)}
-    {$linklib raylib.dll}
-{$elseif defined(UNIX)}
-    {$linklib c}
-    {$linklib m}
-    {$linklib raylib}
-{$endif}
-{$include raylib.inc}
+uses raylib;
 type
     cols = (COL_R=0, COR_G, COL_B, COL_Y, COL_M, COL_CY);
     squaresIdx = 0..19;
@@ -17,7 +10,7 @@ var
     sqVecs: Array[squaresIdx] of TVector2;
     sqVels: Array[squaresIdx] of TVector2;
     prVec: TVector2;
-    i: squaresIdx;
+    i: squaresIdx; 
 const
     squareSize: Integer = 64;
     screenWidth: Integer = 800;
@@ -92,5 +85,3 @@ begin
     end;
     CloseWindow();
 end.
-
-// TODO: Test AudioCallback later
