@@ -10,7 +10,7 @@ SRCSSUFF=$(addsuffix .exe,$(addprefix $(SRCSDIR),$(SRCS)))
 .PHONY: build clean
 
 $(CUNIT)/raylib.ppu:
-	$(CC) $(CFLAGS) $@ -o$(BUILDDIR)/$*.ppu
+	$(CC) $(CFLAGS) $(CUNIT)/raylib.pp -o$(BUILDDIR)/raylib.ppu
 
 $(SRCSDIR)%.exe: $(CUNIT)/raylib.ppu
 	$(CC) $(CFLAGS) $(SRCSDIR)/$*.pp -o$(BUILDDIR)/$*.exe
